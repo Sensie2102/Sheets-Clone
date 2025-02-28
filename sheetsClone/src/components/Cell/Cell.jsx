@@ -5,9 +5,8 @@ import { CellValueState } from "../../store/CellValueState";
 export const CELL_WIDTH = 100;
 export const CELL_HEIGHT = 25;
 
-// eslint-disable-next-line no-unused-vars
 const Cell = (props) => {
-  const [cellValue, setCellValue] = useRecoilState(CellValueState);
+  const [cellValue, setCellValue] = useRecoilState(CellValueState(props.cellId));
   const [isEditMode, setIsEditMode] = useState(false);
   const inputRef = useRef(null);
 
@@ -39,12 +38,14 @@ const Cell = (props) => {
   return isEditMode ? (
     <input
       ref={inputRef}
-      data-cell-id="2"
+      data-cell-id={props.cellId}
       value={cellValue}
       onChange={updateCellValueState}
     />
   ) : (
-    <div onClick={changeLabelToInput}>{cellValue}</div>
+    <div data-cell-id={props.cellId} onClick={changeLabelToInput}>
+      {cellValue}
+    </div>
   );
 };
 

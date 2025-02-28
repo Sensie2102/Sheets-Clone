@@ -17,7 +17,7 @@ const Sheet = () => {
           <Row key={rowIndex}>
             {[...Array(numberOfColumns)].map((col, colIndex) => (
               <Column key={colIndex}>
-                <Cell />
+                <Cell cellId={`${rowIndex},${colIndex}`}/>
               </Column>
             ))}
           </Row>
