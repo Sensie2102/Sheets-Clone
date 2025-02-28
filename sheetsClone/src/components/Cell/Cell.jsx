@@ -1,12 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { CellValueState } from "../../store/CellValueState";
+import classes from "./Cell.module.css";
 
 export const CELL_WIDTH = 100;
 export const CELL_HEIGHT = 25;
 
 const Cell = (props) => {
-  const [cellValue, setCellValue] = useRecoilState(CellValueState(props.cellId));
+  const [cellValue, setCellValue] = useRecoilState(
+    CellValueState(props.cellId)
+  );
   const [isEditMode, setIsEditMode] = useState(false);
   const inputRef = useRef(null);
 
@@ -37,13 +40,18 @@ const Cell = (props) => {
 
   return isEditMode ? (
     <input
+      className={classes.CellInput}
       ref={inputRef}
       data-cell-id={props.cellId}
       value={cellValue}
       onChange={updateCellValueState}
     />
   ) : (
-    <div data-cell-id={props.cellId} onClick={changeLabelToInput}>
+    <div
+      className={classes.CellLabel}
+      data-cell-id={props.cellId}
+      onClick={changeLabelToInput}
+    >
       {cellValue}
     </div>
   );
