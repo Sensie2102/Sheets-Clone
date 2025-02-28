@@ -6,6 +6,8 @@ import Cell, { CELL_WIDTH, CELL_HEIGHT } from "../Cell/Cell";
 import { SheetSizeState } from "../../store/SheetSize";
 import { useRecoilValue } from "recoil";
 import Resizer from "../Resizer/Resizer";
+import AxisCell from "../AxisCell/AxisCell";
+import { numberToChar } from "../../utils/numberToChar";
 
 const Sheet = () => {
   const sheetSize = useRecoilValue(SheetSizeState);
@@ -16,11 +18,23 @@ const Sheet = () => {
     <div className={classes.SheetWrapper}>
       <table className={classes.Sheet}>
         <tbody>
+          <Row>
+            {[...Array(numberOfColumns + 1)].map((column, columnIndex) =>
+              columnIndex !== 0 ? (
+                <AxisCell key={columnIndex}>
+                  {numberToChar(columnIndex - 1)}
+                </AxisCell>
+              ) : (
+                <AxisCell key={columnIndex} />
+              )
+            )}
+          </Row>
           {[...Array(numberOfRows)].map((row, rowIndex) => (
             <Row key={rowIndex}>
-              {[...Array(numberOfColumns)].map((col, colIndex) => (
-                <Column key={colIndex}>
-                  <Cell cellId={`${rowIndex},${colIndex}`} />
+              <AxisCell>{rowIndex + 1}</AxisCell>
+              {[...Array(numberOfColumns)].map((column, columnIndex) => (
+                <Column key={columnIndex}>
+                  <Cell cellId={`${rowIndex},${columnIndex}`} />
                 </Column>
               ))}
             </Row>
