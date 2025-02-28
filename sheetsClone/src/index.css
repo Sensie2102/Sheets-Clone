@@ -3,9 +3,14 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  /* Dark mode styles (Unused, but kept for reference) */
+  /* color-scheme: light dark; */
+  /* color: rgba(255, 255, 255, 0.87); */
+  /* background-color: #242424; */
+
+  /* Light mode enforced */
+  color: #213547; /* Dark text for readability */
+  background-color: #ffffff; /* Light background */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -19,7 +24,7 @@ a {
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: #747bff;
 }
 
 body {
@@ -28,6 +33,8 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #ffffff; /* Ensuring body is also light */
+  color: #213547;
 }
 
 h1 {
@@ -42,7 +49,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #f9f9f9;
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -54,6 +61,8 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* Unused media query for dark mode, kept for reference */
+/*
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -66,3 +75,4 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+*/
