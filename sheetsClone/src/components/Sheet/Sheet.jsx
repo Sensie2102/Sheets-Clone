@@ -5,12 +5,13 @@ import classes from "./Sheet.module.css";
 import Cell, { CELL_WIDTH, CELL_HEIGHT } from "../Cell/Cell";
 import { SheetSizeState } from "../../store/SheetSize";
 import { useRecoilValue } from "recoil";
+import Resizer from "../Resizer/Resizer";
 
 const Sheet = () => {
   const sheetSize = useRecoilValue(SheetSizeState);
 
-  const numberOfColumns = sheetSize.width / CELL_WIDTH;
-  const numberOfRows = sheetSize.height / CELL_HEIGHT;
+  const numberOfColumns = Math.floor(sheetSize.width / CELL_WIDTH);
+  const numberOfRows = Math.floor(sheetSize.height / CELL_HEIGHT);
   return (
     <div className={classes.SheetWrapper}>
       <table className={classes.Sheet}>
@@ -26,6 +27,7 @@ const Sheet = () => {
           ))}
         </tbody>
       </table>
+      <Resizer />
     </div>
   );
 };
