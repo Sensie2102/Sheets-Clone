@@ -2,6 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { CellValueState } from "../../store/CellValueState";
 
+export const CELL_WIDTH = 100;
+export const CELL_HEIGHT = 25;
+
 // eslint-disable-next-line no-unused-vars
 const Cell = (props) => {
   const [cellValue, setCellValue] = useRecoilState(CellValueState);
