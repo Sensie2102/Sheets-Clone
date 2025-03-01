@@ -37,7 +37,7 @@ export const getEquationExpressionFromState = (
 
     console.log(`Processing formula: ${expression}`);
 
-    const functionRegex = /^(SUM|AVG|MAX|MIN|COUNT|TRIM|UPPER|LOWER|REMOVE_DUPLICATES|FIND_AND_REPLACE)\(([^)]+)\)$/i;
+    const functionRegex = /^(SUM|AVG|MAX|MIN|COUNT|TRIM|UPPER|LOWER)\(([^)]+)\)$/i;
     const functionMatch = expression.match(functionRegex);
 
     if (functionMatch) {
@@ -117,10 +117,8 @@ const processSingleCellFunction = (func, cellId, getState) => {
         case "TRIM":
             return value.trim();
         case "UPPER":
-            
             return value.toUpperCase();
         case "LOWER":
-            console.log(value.toUpperCase())
             return value.toLowerCase();
         default:
             return "!ERROR";

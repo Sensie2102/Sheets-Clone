@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { CellValueState } from "../../store/CellValueState";
 import classes from "./Cell.module.css";
+import { CellFormatState } from "../../store/CellFormatState";
 import { EvaluatedCellValueState } from "../../store/EvaluatedCellValueState";
 
 export const CELL_WIDTH = 100;
@@ -14,17 +15,19 @@ const Cell = (props) => {
   const evaluatedCellValue = useRecoilValue(
     EvaluatedCellValueState(props.cellId)
   );
+  const [format] = useRecoilState(CellFormatState(props.cellId));
   const [isEditMode, setIsEditMode] = useState(false);
   const inputRef = useRef(null);
 
   const changeLabelToInput = (event) => {
     event.stopPropagation();
     setIsEditMode(true);
+    
+    props.onSelect?.(props.cellId);
   };
 
   const changeInputToLabel = () => setIsEditMode(false);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const onClickOutsideEventInputHandler = (event) => {
     if (inputRef.current && !inputRef.current.contains(event.target)) {
       changeInputToLabel();
@@ -40,7 +43,15 @@ const Cell = (props) => {
     return () => {
       document.removeEventListener("click", onClickOutsideEventInputHandler);
     };
-  }, [onClickOutsideEventInputHandler]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const cellStyle = {
+    fontWeight: format.bold ? "bold" : "normal",
+    fontStyle: format.italic ? "italic" : "normal",
+    fontSize: `${format.fontSize}px`,
+    color: format.color,
+  };
 
   return isEditMode ? (
     <input
@@ -49,16 +60,16 @@ const Cell = (props) => {
       data-cell-id={props.cellId}
       value={cellValue}
       onChange={updateCellValueState}
+      style={cellStyle}
     />
   ) : (
     <div
       className={classes.CellLabel}
       data-cell-id={props.cellId}
       onClick={changeLabelToInput}
+      style={cellStyle}
     >
-      {cellValue.startsWith("=") && !isEditMode
-        ? evaluatedCellValue
-        : cellValue}
+      {cellValue.startsWith("=") ? evaluatedCellValue : cellValue}
     </div>
   );
 };

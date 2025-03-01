@@ -1,8 +1,12 @@
-.SheetWrapper {
-    position: relative;
-    width: fit-content;
-  }
-  
+.SheetOuterWrapper {
+  /* Wraps everything including the toolbar + sheet */
+  position: relative;
+  width: fit-content;
+}
+
+.SheetInnerWrapper {
+  margin-top: 60px; /* or however tall your toolbar is */
+}
   .Sheet {
     border-spacing: 0;
   }
