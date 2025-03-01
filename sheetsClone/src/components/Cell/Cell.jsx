@@ -56,7 +56,9 @@ const Cell = (props) => {
       data-cell-id={props.cellId}
       onClick={changeLabelToInput}
     >
-      {evaluatedCellValue}
+      {cellValue.startsWith("=") && !isEditMode
+        ? evaluatedCellValue
+        : cellValue}
     </div>
   );
 };

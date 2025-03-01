@@ -9,26 +9,32 @@ export const EvaluatedCellValueState = (cellId) =>
     selector({
       key: `evaluatedCell_${cellId}`,
       get: ({ get }) => {
-        const value = get(CellValueState(cellId));
+        const value = get(CellValueState(cellId))||0;
 
         if (value.startsWith("=")) {
           try {
-            const evalutedExpression = getEquationExpressionFromState(
+            const evaluatedExpression = getEquationExpressionFromState(
               get,
               value.slice(1)
             );
 
-            if (evalutedExpression === "!ERROR") {
+            if (evaluatedExpression === "!ERROR") {
               return "!ERROR";
             }
 
-            return evaluate(evalutedExpression);
+        
+            
+            if (typeof evaluatedExpression === "string") {
+              return evaluatedExpression;  
+          }
+
+            return evaluate(evaluatedExpression);
           // eslint-disable-next-line no-unused-vars
           } catch (error) {
             return value;
           }
         }
-
+        
         return value;
       },
     })
