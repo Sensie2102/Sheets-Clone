@@ -4,6 +4,7 @@ import { CellValueState } from "../../store/CellValueState";
 import classes from "./Cell.module.css";
 import { CellFormatState } from "../../store/CellFormatState";
 import { EvaluatedCellValueState } from "../../store/EvaluatedCellValueState";
+import { columnState } from "../../store/ColumnState";
 
 export const CELL_WIDTH = 100;
 export const CELL_HEIGHT = 25;
@@ -12,21 +13,36 @@ const Cell = (props) => {
   const [cellValue, setCellValue] = useRecoilState(
     CellValueState(props.cellId)
   );
+  // eslint-disable-next-line no-unused-vars
+  const [rowId, columnId] = props.cellId.split(',').map(Number);
+  const [colWidth, updateMax] = useRecoilState(columnState(columnId));
   const evaluatedCellValue = useRecoilValue(
     EvaluatedCellValueState(props.cellId)
   );
   const [format] = useRecoilState(CellFormatState(props.cellId));
   const [isEditMode, setIsEditMode] = useState(false);
   const inputRef = useRef(null);
+  
 
   const changeLabelToInput = (event) => {
     event.stopPropagation();
     setIsEditMode(true);
-    
+
     props.onSelect?.(props.cellId);
   };
 
-  const changeInputToLabel = () => setIsEditMode(false);
+  const maxWidth = () => {
+    const curWidth = inputRef.current?.scrollWidth || 0;
+    console.log(curWidth)
+    if (curWidth > colWidth) {
+      updateMax(curWidth);
+    }
+  };
+
+  const changeInputToLabel = () => {
+    maxWidth();
+    setIsEditMode(false);
+  };
 
   const onClickOutsideEventInputHandler = (event) => {
     if (inputRef.current && !inputRef.current.contains(event.target)) {
@@ -35,6 +51,7 @@ const Cell = (props) => {
   };
 
   const updateCellValueState = (event) => {
+    console.log(inputRef.current?.scrollWidth || 0)
     setCellValue(event.target.value);
   };
 
@@ -43,7 +60,7 @@ const Cell = (props) => {
     return () => {
       document.removeEventListener("click", onClickOutsideEventInputHandler);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const cellStyle = {
