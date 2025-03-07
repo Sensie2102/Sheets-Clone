@@ -51,7 +51,6 @@ const Cell = (props) => {
   };
 
   const updateCellValueState = (event) => {
-    console.log(inputRef.current?.scrollWidth || 0)
     setCellValue(event.target.value);
   };
 
