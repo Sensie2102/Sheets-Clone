@@ -14,7 +14,7 @@ const Cell = (props) => {
     CellValueState(props.cellId)
   );
   // eslint-disable-next-line no-unused-vars
-  const [rowId, columnId] = props.cellId.split(',').map(Number);
+  const [rowId, columnId] = props.cellId.split(",").map(Number);
   const [colWidth, updateMax] = useRecoilState(columnState(columnId));
   const evaluatedCellValue = useRecoilValue(
     EvaluatedCellValueState(props.cellId)
@@ -22,7 +22,6 @@ const Cell = (props) => {
   const [format] = useRecoilState(CellFormatState(props.cellId));
   const [isEditMode, setIsEditMode] = useState(false);
   const inputRef = useRef(null);
-  
 
   const changeLabelToInput = (event) => {
     event.stopPropagation();
@@ -33,7 +32,7 @@ const Cell = (props) => {
 
   const maxWidth = () => {
     const curWidth = inputRef.current?.scrollWidth || 0;
-    console.log(curWidth)
+    console.log(curWidth);
     if (curWidth > colWidth) {
       updateMax(curWidth);
     }
@@ -44,8 +43,9 @@ const Cell = (props) => {
     setIsEditMode(false);
   };
 
-  const onClickOutsideEventInputHandler = (event) => {
-    if (inputRef.current && !inputRef.current.contains(event.target)) {
+  const onKeyDownEventInputHandler = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
       changeInputToLabel();
     }
   };
@@ -55,12 +55,16 @@ const Cell = (props) => {
   };
 
   useEffect(() => {
-    document.addEventListener("click", onClickOutsideEventInputHandler);
-    return () => {
-      document.removeEventListener("click", onClickOutsideEventInputHandler);
-    };
+    const inputElement = inputRef.current;
+    if (inputElement) {
+      inputElement.addEventListener("keydown", onKeyDownEventInputHandler);
+      return () => {
+        inputElement.removeEventListener("keydown", onKeyDownEventInputHandler);
+      };
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [inputRef.current]);
 
   const cellStyle = {
     fontWeight: format.bold ? "bold" : "normal",
