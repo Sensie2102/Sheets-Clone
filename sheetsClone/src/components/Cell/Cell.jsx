@@ -49,7 +49,11 @@ const Cell = (props) => {
       changeInputToLabel();
     }
   };
-
+  const onClickOutsideEventHandler = (event) => {
+    if (inputRef.current && !inputRef.current.contains(event.target)) {
+      changeInputToLabel();
+    }
+  };
   const updateCellValueState = (event) => {
     setCellValue(event.target.value);
   };
@@ -58,8 +62,10 @@ const Cell = (props) => {
     const inputElement = inputRef.current;
     if (inputElement) {
       inputElement.addEventListener("keydown", onKeyDownEventInputHandler);
+      document.addEventListener("click", onClickOutsideEventHandler);
       return () => {
         inputElement.removeEventListener("keydown", onKeyDownEventInputHandler);
+        document.removeEventListener("click", onClickOutsideEventHandler);
       };
     }
 
