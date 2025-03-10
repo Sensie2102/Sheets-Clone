@@ -1,6 +1,15 @@
 .AxisCell {
-    text-align: center;
-    background-color: #ddd;
-    padding: 4px;
-    border: 1px solid #777;
-  }
+  text-align: center;
+  background-color: #ddd;
+  padding: 4px;
+  border: 1px solid #777;
+}
+
+.ResizeHandle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 5px;
+  height: 100%;
+  cursor: ew-resize; 
+}

@@ -5,7 +5,7 @@ export const CellFormatState = atomFamily({
   default: {
     bold: false,
     italic: false,
-    fontSize: 12,
+    fontSize: 15,
     color: "#000000"
   },
 });
